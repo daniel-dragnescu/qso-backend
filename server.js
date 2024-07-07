@@ -20,24 +20,30 @@ app.use(logger)
 
 // app.use(cors(corsOptions))
 
+
+app.use(cors({
+  origin: 'https://qso-frontend.vercel.app', // Allow this origin
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS', // Allow these methods
+  allowedHeaders: 'Content-Type,Authorization', // Allow these headers
+  optionsSuccessStatus: 200 // For legacy browser support
+}));
+
+// Handle preflight requests
+app.options('*', cors({
+  origin: 'https://qso-frontend.vercel.app',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  allowedHeaders: 'Content-Type,Authorization',
+  optionsSuccessStatus: 200
+}));
+
+
+
+
 app.use(express.urlencoded({ extended: false }))
 
 app.use(express.json())
 
 app.use(cookieParser())
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "OPTIONS, GET, POST, PUT, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-  next();
-});
 
 app.use('/', express.static(path.join(__dirname, 'public')))
 
