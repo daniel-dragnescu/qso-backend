@@ -27,9 +27,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Authorization. X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+  console.log('req_method', req.method)
   if (req.method === 'OPTIONS') {
     console.log('it is options')
     return res.sendStatus(200);
