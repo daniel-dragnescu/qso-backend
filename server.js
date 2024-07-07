@@ -20,19 +20,21 @@ app.use(logger)
 
 // app.use(cors(corsOptions))
 
-app.use((req, res) => {
-
-  if (req.method === 'OPTIONS') {
-    res.status(200).end()
-    return
-  }
-})
-
 app.use(express.urlencoded({ extended: false }))
 
 app.use(express.json())
 
 app.use(cookieParser())
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Authorization. X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
 app.use('/', express.static(path.join(__dirname, 'public')))
 
