@@ -18,7 +18,15 @@ connectDB()
 
 app.use(logger)
 
-app.use(cors(corsOptions))
+// app.use(cors(corsOptions))
+
+app.use((req, res) => {
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end()
+    return
+  }
+})
 
 app.use(express.urlencoded({ extended: false }))
 
