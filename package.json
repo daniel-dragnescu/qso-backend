@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "exercise",
   "version": "1.0.0",
   "description": "Backend Project",
