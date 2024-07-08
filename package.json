@@ -5,7 +5,7 @@
   "description": "Backend Project",
   "main": "index.js",
   "scripts": {
-    "start": "vercel dev"
+    "start": "-"
   },
   "keywords": [],
   "author": "",
