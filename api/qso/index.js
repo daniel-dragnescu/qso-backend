@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
 
     // Set CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
     // Handle OPTIONS method
@@ -16,24 +16,29 @@ module.exports = async (req, res) => {
         return;
     }
 
-    const { method, params } = req;
+    // Handle GET method
+    if (req.method === 'GET') {
+        await getAllQso(req, res);
+    }
 
-    switch (method) {
-        case 'GET':
-            if (params.id) {
-                req.query = { ...req.query, id: params.id };
-                return await updateQso(req, res);
-            } else {
-                return await getAllQso(req, res);
-            }
-        case 'POST':
-            return await createNewQso(req, res);
-        case 'PATCH':
-            return await updateQso(req, res);
-        case 'DELETE':
-            return await deleteQso(req, res);
-        default:
-            res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']);
-            res.status(405).end(`Method ${method} Not Allowed`);
+    // Handle POST method
+    else if (req.method === 'POST') {
+        await createNewQso(req, res);
+    }
+
+    // Handle PATCH method
+    else if (req.method === 'PATCH') {
+        await updateQso(req, res);
+    }
+
+    // Handle DELETE method
+    else if (req.method === 'DELETE') {
+        await deleteQso(req, res);
+    }
+
+    // Handle unsupported methods
+    else {
+        res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
+        res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 };
