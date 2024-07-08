@@ -2,23 +2,23 @@ const Qso = require('../models/Qso');
 const asyncHandler = require('express-async-handler');
 
 const createNewQso = asyncHandler(async (req, res) => {
-    const { callsign, rst_received, rst_sent, op, qth, comments } = req.body;
+const { callsign, rst_received, rst_sent, op, qth, comments } = req.body;
 
-    if (!callsign || !rst_received || !rst_sent) {
-        return res.status(422).json({ message: 'Unprocessable Entity: Callsign, RST received, and RST sent are required' });
+if (!callsign || !rst_received || !rst_sent) {
+    return res.status(422).json({ message: 'Unprocessable Entity: Callsign, RST received, and RST sent are required' });
+}
+
+try {
+    const createQso = await Qso.create({ callsign, rst_received, rst_sent, op, qth, comments });
+
+    if (createQso instanceof Qso) {
+        res.status(201).json({ message: `New QSO ${callsign} created`, qso: createQso });
+    } else {
+        res.status(422).json({ message: 'Unprocessable Entity: QSO creation failed' });
     }
-
-    try {
-        const createQso = await Qso.create({ callsign, rst_received, rst_sent, op, qth, comments });
-
-        if (createQso instanceof Qso) {
-            res.status(201).json({ message: `New QSO ${callsign} created`, qso: createQso });
-        } else {
-            res.status(422).json({ message: 'Unprocessable Entity: QSO creation failed' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: 'An error occurred while creating the QSO', error: error.message });
-    }
+} catch (error) {
+    res.status(500).json({ message: 'An error occurred while creating the QSO', error: error.message });
+}
 });
 
 const getAllQso = asyncHandler(async (req, res) => {

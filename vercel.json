@@ -13,12 +13,10 @@
     { "src": "/(.*)", "dest": "/index.js" }
   ],
   "builds": [
-    { "src": "/api/qso/**", "use": "@now/node-server" },
-    { "src": "/api/auth/**", "use": "@now/node-server" },
-    { "src": "/api/users/**", "use": "@now/node-server" },
-    { "src": "/handlers/**", "use": "@now/node-server" },
-    { "src": "/middleware/**", "use": "@now/node-server" },
-    { "src": "/config/**", "use": "@now/node-server" },
-    { "src": "/vercel.json", "use": "@now/static" }
+    { "src": "api/**/*.js", "use": "@vercel/node" },
+    { "src": "handlers/**/*.js", "use": "@vercel/node" },
+    { "src": "middleware/**/*.js", "use": "@vercel/node" },
+    { "src": "config/**/*.js", "use": "@vercel/node" },
+    { "src": "vercel.json", "use": "@vercel/static" }
   ]
 }
