@@ -4,14 +4,9 @@
     "NODE_OPTIONS": "--openssl-legacy-provider"
   },
   "routes": [
-    { "src": "/api/auth/register", "dest": "/api/auth/register.js" },
-    { "src": "/api/auth/login", "dest": "/api/auth/login.js" },
+    { "src": "/api/auth/(login|register)", "dest": "/api/auth/$1.js" },
     { "src": "/api/users/update-user", "dest": "/api/users/updateUser.js" },
-    { "src": "/api/qso/createNewQso", "dest": "/api/qso/createNewQso.js" },
-    { "src": "/api/qso/deleteQso", "dest": "/api/qso/deleteQso.js" },
-    { "src": "/api/qso/getAllQso", "dest": "/api/qso/getAllQso.js" },
-    { "src": "/api/qso/getQso", "dest": "/api/qso/getQso.js" },
-    { "src": "/api/qso/updateQso", "dest": "/api/qso/updateQso.js" },
+    { "src": "/api/qso/(createNewQso|deleteQso|getAllQso|updateQso)", "dest": "/api/qso/$1.js" },
     { "src": "/api/qso/(.*)", "dest": "/api/qso/index.js" },
     { "src": "/(.*)", "dest": "/index.js" }
   ],
@@ -19,9 +14,7 @@
     { "src": "/api/qso/**", "use": "@vercel/node" },
     { "src": "/api/auth/**", "use": "@vercel/node" },
     { "src": "/api/users/**", "use": "@vercel/node" },
-    { "src": "/handlers/**", "use": "@vercel/node" },
     { "src": "/middleware/**", "use": "@vercel/node" },
-    { "src": "/config/**", "use": "@vercel/node" },
-    { "src": "/vercel.json", "use": "@vercel/static" }
+    { "src": "/config/**", "use": "@vercel/node" }
   ]
 }
