@@ -1,13 +1,24 @@
 {
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Credentials", "value": "true" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
-        { "key": "Access-Control-Allow-Headers", "value": "Authorization. X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" }
-      ]
-    }
+  "version": 2,
+  "routes": [
+    { "src": "/api/auth/register", "dest": "/api/auth/register.js" },
+    { "src": "/api/auth/login", "dest": "/api/auth/login.js" },
+    { "src": "/api/users/update-user", "dest": "/handlers/update-user.js" },
+    { "src": "/api/qso/createNewQso", "dest": "/api/qso/createNewQso.js" },
+    { "src": "/api/qso/deleteQso", "dest": "/api/qso/deleteQso.js" },
+    { "src": "/api/qso/getAllQso", "dest": "/api/qso/getAllQso.js" },
+    { "src": "/api/qso/getQso", "dest": "/api/qso/getQso.js" },
+    { "src": "/api/qso/updateQso", "dest": "/api/qso/updateQso.js" },
+    { "src": "/api/qso/(.*)", "dest": "/api/qso/index.js" },
+    { "src": "/(.*)", "dest": "/index.js" }
+  ],
+  "builds": [
+    { "src": "/api/qso/**", "use": "@now/node-server" },
+    { "src": "/api/auth/**", "use": "@now/node-server" },
+    { "src": "/api/users/**", "use": "@now/node-server" },
+    { "src": "/handlers/**", "use": "@now/node-server" },
+    { "src": "/middleware/**", "use": "@now/node-server" },
+    { "src": "/config/**", "use": "@now/node-server" },
+    { "src": "/vercel.json", "use": "@now/static" }
   ]
 }

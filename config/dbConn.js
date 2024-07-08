@@ -1,11 +1,26 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+
+let isConnected = false;
 
 const connectDB = async () => {
-  try  {
-    await mongoose.connect(process.env.DATABASE_URI)
-  } catch (err) {
-    console.log(err)
-  }
-}
+    if (isConnected) {
+        console.log('Using existing database connection');
+        return;
+    }
 
-module.exports = connectDB
+    try {
+        await mongoose.connect(process.env.DATABASE_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false,
+            useCreateIndex: true
+        });
+        isConnected = true;
+        console.log('Connected to MongoDB');
+    } catch (err) {
+        console.error('MongoDB connection error:', err.message);
+        throw err; // Propagate the error for better error handling in serverless functions
+    }
+};
+
+module.exports = connectDB;

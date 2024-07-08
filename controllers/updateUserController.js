@@ -1,40 +1,44 @@
-const User = require('../models/User')
-const bcrypt = require('bcrypt')
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
+const asyncHandler = require('express-async-handler');
 
-const handleUpdateUser = async (req, res) => {
-  const userId = req.params.id
-  const { email, password } = req.body
+const handleUpdateUser = async (userId, { email, password }) => {
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new Error('User not found.');
+        }
 
-  const allowedFields = ['email', 'password']
+        if (email) {
+            user.email = email;
+        }
 
-  const disallowedFields = Object.keys(req.body).filter(field => !allowedFields.includes(field))
-  if (disallowedFields.length > 0) {
-      return res.status(400).json({ message: `Cannot update ${disallowedFields.join(', ')}. Only email and password are allowed for update.` })
-  }
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            user.password = hashedPassword;
+        }
 
-  try {
-    const user = await User.findById(userId)
-    if (!user) {
-        return res.status(404).json({ message: 'User not found.' })
+        await user.save();
+
+        return { message: 'User updated successfully.', user };
+
+    } catch (error) {
+        throw new Error(`An error occurred while updating the user: ${error.message}`);
     }
+};
 
-    if (email) {
-        user.email = email
+const updateUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { email, password } = req.body;
+
+    try {
+        const result = await handleUpdateUser(id, { email, password });
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
+});
 
-    if (password) {
-        const hashedPassword = await bcrypt.hash(password, 10)
-        user.password = hashedPassword
-    }
-
-    await user.save()
-
-    return res.status(200).json({ message: 'User updated successfully.', user })
-
-  } catch (error) {
-    return res.status(500).json({ message: 'An error occurred while updating the user.', error: error.message })
-  }
-}
-
-
-module.exports = { handleUpdateUser }
+module.exports = {
+    updateUser
+};

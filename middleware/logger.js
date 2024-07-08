@@ -1,27 +1,24 @@
-const { format } = require('date-fns')
-const { v4: uuid } = require('uuid')
-const fs = require('fs')
-const fsPromises = require('fs').promises
-const path = require('path')
+const { format } = require('date-fns');
+const { v4: uuid } = require('uuid');
 
-const logEvents = async (message,logFileName) => {
-  const dateTime = format(new Date(), 'yyyyMMdd\tHH:mm:ss')
-  const logItem = `${dateTime}\t${uuid()}\t${message}\n`
+const logEvents = (message, logFile) => {
+    const dateTime = format(new Date(), 'yyyyMMdd\tHH:mm:ss');
+    const logItem = `${dateTime}\t${uuid()}\t${message}\n`;
 
-  try {
-    if (!fs.existsSync(path.join(__dirname, '..', 'logs'))) {
-      await fsPromises.mkdir(path.join(__dirname, '..', 'logs'))
-    }
-    await fs.promises.appendFile(path.join(__dirname, '..', 'logs', logFileName), logItem)
-  } catch (err) {
-    console.log(err)
-  }
-}
+    console.log(logItem); // Log to console during development
+    // Logic to save logItem to a file (e.g., using file system module)
 
-const logger =  (req, res, next) => {
-  logEvents(`${req.method}\t${req.url}\t${req.headers.origin}`, 'reqLog.log')
-  console.log(`${req.method} ${req.path}`)
-  next()
-}
+    // Example: Saving to a log file (this is a basic example, adjust as needed)
+    // fs.appendFileSync(logFile, logItem); // Uncomment if using Node.js file system module
+};
 
-module.exports = { logEvents, logger }
+const logger = (req, res, next) => {
+    const dateTime = format(new Date(), 'yyyyMMdd\tHH:mm:ss');
+    const logItem = `${dateTime}\t${uuid()}\t${req.method}\t${req.url}\t${req.headers.origin}\n`;
+
+    console.log(logItem); // Log to console during development
+
+    next();
+};
+
+module.exports = { logger, logEvents };
