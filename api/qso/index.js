@@ -1,44 +1,49 @@
 const { createNewQso, getAllQso, updateQso, deleteQso } = require('../../controllers/qsoController');
 const connectDB = require('../../config/dbConn');
+const allowCors = require('../../config/allowCors'); // Import the modified corsOptions
 
-module.exports = async (req, res) => {
+module.exports = allowCors(async (req, res) => {
     // Ensure database connection is established
     await connectDB();
 
-    // Set CORS headers
-    res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    const { method } = req;
+
+    // Set CORS headers (Note: You can remove these from here if they are set in corsOptions)
+    // res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
+    // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
+    // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
     // Handle OPTIONS method
-    if (req.method === 'OPTIONS') {
+    if (method === 'OPTIONS') {
         res.status(204).end();
         return;
     }
 
     // Handle GET method
-    if (req.method === 'GET') {
+    if (method === 'GET') {
         await getAllQso(req, res);
+        return;
     }
 
     // Handle POST method
-    else if (req.method === 'POST') {
+    if (method === 'POST') {
         await createNewQso(req, res);
+        return;
     }
 
     // Handle PATCH method
-    else if (req.method === 'PATCH') {
+    if (method === 'PATCH') {
         await updateQso(req, res);
+        return;
     }
 
     // Handle DELETE method
-    else if (req.method === 'DELETE') {
+    if (method === 'DELETE') {
         await deleteQso(req, res);
+        return;
     }
 
     // Handle unsupported methods
-    else {
-        res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
-    }
-};
+    res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
+    res.status(405).end(`Method ${method} Not Allowed`);
+});

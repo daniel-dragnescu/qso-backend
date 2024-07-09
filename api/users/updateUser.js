@@ -1,20 +1,10 @@
 const { updateUser } = require('../../controllers/updateUserController');
 const connectDB = require('../../config/dbConn');
+const allowCors = require('../../config/allowCors'); // Import allowCors middleware
 
-module.exports = async (req, res) => {
+module.exports = allowCors(async (req, res) => {
     // Ensure database connection is established
     await connectDB();
-
-    // Set CORS headers
-    res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
-    res.setHeader('Access-Control-Allow-Methods', 'PATCH, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-    // Handle OPTIONS method
-    if (req.method === 'OPTIONS') {
-        res.status(204).end();
-        return;
-    }
 
     // Handle PATCH method
     if (req.method === 'PATCH') {
@@ -23,4 +13,4 @@ module.exports = async (req, res) => {
         res.setHeader('Allow', ['PATCH']);
         res.status(405).end(`Method ${req.method} Not Allowed`);
     }
-};
+});
