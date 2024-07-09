@@ -6,7 +6,6 @@
   "routes": [
     { "src": "/api/auth/(register|login)", "dest": "/api/auth/$1.js" },
     { "src": "/api/users/updateUser", "dest": "/api/users/updateUser.js" },
-    { "src": "/api/qso/(createNewQso|deleteQso|getAllQso|updateQso)", "dest": "/api/qso/index.js" },
     { "src": "/api/qso/(.*)", "dest": "/api/qso/index.js" },
     { "src": "/(.*)", "dest": "/index.js" }
   ],
