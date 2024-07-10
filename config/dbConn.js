@@ -5,7 +5,7 @@ let isConnected = false;
 const connectDB = async () => {
     if (isConnected) {
         console.log('Using existing database connection');
-        return;
+        return Promise.resolve(); // Ensure a resolved Promise is returned
     }
 
     try {
