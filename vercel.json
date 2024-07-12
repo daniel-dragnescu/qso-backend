@@ -6,15 +6,24 @@
   "routes": [
     { "src": "/api/auth/(register|login)", "dest": "/api/auth/$1.js" },
     { "src": "/api/users/updateUser", "dest": "/api/users/updateUser.js" },
-    { "src": "/api/qso/(createNewQso|deleteQso|getAllQso|updateQso)", "dest": "/api/qso/index.js" },
-    { "src": "/api/qso/(.*)", "dest": "/api/qso/index.js" },
-    { "src": "/(.*)", "dest": "/index.js" }
+    { "src": "/api/qso/(createNewQso|getAllQso|updateQso|deleteQso)", "dest": "/api/qso/$1.js" }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Credentials", "value": "true" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
+        { "key": "Access-Control-Allow-Headers", "value": "Authorization, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" }
+      ]
+    }
   ],
   "builds": [
-    { "src": "/api/qso/**", "use": "@vercel/node" },
-    { "src": "/api/auth/**", "use": "@vercel/node" },
-    { "src": "/api/users/**", "use": "@vercel/node" },
-    { "src": "/middleware/**", "use": "@vercel/node" },
-    { "src": "/config/**", "use": "@vercel/node" }
+    { "src": "api/qso/**", "use": "@vercel/node" },
+    { "src": "api/auth/**", "use": "@vercel/node" },
+    { "src": "api/users/**", "use": "@vercel/node" },
+    { "src": "middleware/**", "use": "@vercel/node" },
+    { "src": "config/**", "use": "@vercel/node" }
   ]
 }
