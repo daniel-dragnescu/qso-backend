@@ -14,7 +14,7 @@ module.exports = allowCors(async (req, res) => { // Apply allowCors middleware
 
     // Handle POST method
     if (req.method === 'POST') {
-        await handleLogin(req, res);
+        handleLogin(req, res);
     } else {
         res.setHeader('Allow', ['POST']);
         res.status(405).end(`Method ${req.method} Not Allowed`);

@@ -8,7 +8,7 @@ module.exports = allowCors(async (req, res) => {
   await connectDB();
 
   if (req.method === 'PATCH') {
-    await updateQso(req, res);
+    updateQso(req, res);
   } else if (req.method === 'OPTIONS') {
     res.status(204).end();
   } else {

@@ -8,7 +8,7 @@ module.exports = allowCors(async (req, res) => {
 
     // Handle PATCH method
     if (req.method === 'PATCH') {
-        await updateUser(req, res);
+        updateUser(req, res);
     } else {
         res.setHeader('Allow', ['PATCH']);
         res.status(405).end(`Method ${req.method} Not Allowed`);

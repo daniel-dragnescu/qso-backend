@@ -8,7 +8,7 @@ module.exports = allowCors(async (req, res) => {
   await connectDB();
 
   if (req.method === 'DELETE') {
-    await deleteQso(req, res);
+    deleteQso(req, res);
   } else if (req.method === 'OPTIONS') {
     res.status(204).end();
   } else {

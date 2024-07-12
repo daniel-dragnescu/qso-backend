@@ -8,7 +8,7 @@ module.exports = allowCors(async (req, res) => {
   await connectDB();
 
   if (req.method === 'GET') {
-    await getAllQso(req, res);
+    getAllQso(req, res);
   } else if (req.method === 'OPTIONS') {
     res.status(204).end();
   } else {
