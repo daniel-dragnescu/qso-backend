@@ -1,8 +1,7 @@
 {
   "version": 2,
   "env": {
-    "NODE_OPTIONS": "--openssl-legacy-provider",
-    "MONGODB_URI": "@mongodb-uri"
+    "NODE_OPTIONS": "--openssl-legacy-provider"
   },
   "routes": [
     { "src": "/api/auth/(register|login)", "dest": "/api/auth/$1.js" },
