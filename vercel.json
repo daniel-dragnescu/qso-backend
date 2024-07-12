@@ -3,11 +3,6 @@
   "env": {
     "NODE_OPTIONS": "--openssl-legacy-provider"
   },
-  "routes": [
-    { "src": "/api/auth/(register|login)", "dest": "/api/auth/$1.js" },
-    { "src": "/api/users/updateUser", "dest": "/api/users/updateUser.js" },
-    { "src": "/api/qso/(createNewQso|getAllQso|updateQso|deleteQso)", "dest": "/api/qso/$1.js" }
-  ],
   "headers": [
     {
       "source": "/api/(.*)",
