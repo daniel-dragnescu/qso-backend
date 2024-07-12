@@ -1,6 +1,6 @@
 const { handleLogin } = require('../../controllers/authController');
 const connectDB = require('../../config/dbConn');
-const allowCors = require('../../config/allowCors'); // Import allowCors middleware
+const allowCors = require('../../controllers/allowCors'); // Import allowCors middleware
 
 module.exports = allowCors(async (req, res) => { // Apply allowCors middleware
     // Ensure database connection is established

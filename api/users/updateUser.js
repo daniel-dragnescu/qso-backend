@@ -1,6 +1,6 @@
 const { updateUser } = require('../../controllers/updateUserController');
 const connectDB = require('../../config/dbConn');
-const allowCors = require('../../config/allowCors'); // Import allowCors middleware
+const allowCors = require('../../controllers/allowCors'); // Import allowCors middleware
 
 module.exports = allowCors(async (req, res) => {
     // Ensure database connection is established
