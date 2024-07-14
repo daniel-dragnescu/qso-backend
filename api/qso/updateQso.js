@@ -4,8 +4,9 @@ const { updateQso } = require('../../controllers/qsoController');
 const connectDB = require('../../config/dbConn');
 const allowCors = require('../../controllers/allowCors');
 
+await connectDB();
+
 module.exports = allowCors(async (req, res) => {
-  await connectDB();
 
   if (req.method === 'PATCH') {
     updateQso(req, res);
